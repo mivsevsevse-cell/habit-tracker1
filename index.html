@@ -351,28 +351,12 @@
         // ===== СОСТОЯНИЕ ПРИЛОЖЕНИЯ =====
         // =============================================
         
-        // Загружаем привычки из localStorage или используем тестовые
-        let habits = [];
-        let nextId = 1;
-        
-        // Пытаемся загрузить сохранённые привычки
-        try {
-            const saved = localStorage.getItem('habits');
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    habits = parsed;
-                    nextId = Math.max(...habits.map(h => h.id)) + 1;
-                }
-            }
-        } catch (e) {
-            // Если ошибка — используем тестовые данные
-            habits = [
-                { id: 1, name: 'Зарядка', icon: '💪', description: '15 минут утром', completed: false },
-                { id: 2, name: 'Чтение', icon: '📚', description: '20 страниц', completed: false },
-            ];
-            nextId = 3;
-        }
+        // Загружаем привычки из localStorage
+        let habits = [
+            { id: 1, name: 'Зарядка', icon: '💪', description: '15 минут утром', completed: false },
+            { id: 2, name: 'Чтение', icon: '📚', description: '20 страниц', completed: false },
+        ];
+        let nextId = 3;
         
         // =============================================
         // ===== ОТРИСОВКА =====
@@ -411,13 +395,6 @@
                     </div>
                 </div>
             `).join('');
-            
-            // Сохраняем в localStorage
-            try {
-                localStorage.setItem('habits', JSON.stringify(habits));
-            } catch (e) {
-                // Игнорируем ошибки сохранения
-            }
         }
         
         // =============================================
@@ -510,7 +487,7 @@
         console.log('✅ Приложение загружено!');
         console.log('📊 Привычек:', habits.length);
         
-        // Для мобильных: даём знать, что приложение готово
+        // Для Telegram WebApp
         try {
             if (window.Telegram && window.Telegram.WebApp) {
                 window.Telegram.WebApp.ready();
